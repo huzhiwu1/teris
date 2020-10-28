@@ -10,8 +10,8 @@ const shapeDom: FC<Props> = function (props) {
 
 	return (
 		<>
-			{shape.map((item) => {
-				return <SquareDom x={item.x} y={item.y} />;
+			{shape.map((item, index) => {
+				return <SquareDom key={index} x={item.x} y={item.y} />;
 			})}
 		</>
 	);
