@@ -1,5 +1,6 @@
 const Path = require("path");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
+const { ProgressPlugin } = require("webpack");
 module.exports = {
 	entry: Path.resolve(__dirname, "../src/index.tsx"),
 	output: {
@@ -15,6 +16,9 @@ module.exports = {
 	},
 	resolve: {
 		extensions: [".ts", ".tsx", ".js"],
+		alias: {
+			"@": Path.resolve(__dirname, "../src"),
+		},
 	},
 	module: {
 		rules: [
@@ -31,7 +35,7 @@ module.exports = {
 					{
 						loader: "css-loader",
 						options: {
-							importLoader: 1,
+							importLoaders: 1,
 						},
 					},
 					"sass-loader",
