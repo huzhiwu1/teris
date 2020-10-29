@@ -1,10 +1,11 @@
 #root {
 	width: 100%;
 	height: 100%;
-	.panel {
-		position: relative;
+	.app {
 		width: 100%;
 		height: 100%;
-		background-color: bisque;
+		display: flex;
+		align-items: center;
+		justify-content: center;
 	}
 }

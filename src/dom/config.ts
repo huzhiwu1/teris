@@ -1,3 +1,4 @@
 export const Square = {
-    width: 10
+    width: 30
 }
+
