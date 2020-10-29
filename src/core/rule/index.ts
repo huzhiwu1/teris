@@ -20,11 +20,16 @@ export default class Rule {
         return result;
     }
 
-    // 是否已经触碰到其他方块
+    // 是否已经触碰到其他方块,或者触底了
     static isTouch(shape: Shape) {
         let result: boolean = false;
         shape.map(item => {
             if (Container.getOne(item.y + 1, item.x) === 1) {
+                result = true;
+            }
+
+            if (item.y >= Panel.height - 1) {
+                console.log('触底')
                 result = true;
             }
         })
