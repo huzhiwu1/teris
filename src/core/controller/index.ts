@@ -3,8 +3,9 @@ import Rule from "@/core/rule";
 
 
 function controller(shape: Shape, onChange: (e: Shape) => void) {
+
+
     const keyDownFn = (e: KeyboardEvent) => {
-        console.log('点击')
         let newShape: Shape | undefined = undefined;
         const { key } = e;
         switch (key) {
@@ -54,6 +55,8 @@ function controller(shape: Shape, onChange: (e: Shape) => void) {
             onChange(newShape as Shape)
         }
     }
+
+
 
     document.addEventListener('keydown', keyDownFn, true)
     return () => document.removeEventListener('keydown', keyDownFn, true)

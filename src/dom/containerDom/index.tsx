@@ -36,6 +36,7 @@ const containerDom: FC<Props> = function (props) {
 					</div>
 				);
 			})}
+			{props.children}
 		</div>
 	);
 };
