@@ -33,6 +33,7 @@ export default class container {
     }
 
     static getOne(row: number, col: number) {
+
         if (row >= 0 && row < Panel.height && col >= 0 && col <= Panel.width) {
             return this.points[row][col]
         } else {
@@ -43,6 +44,9 @@ export default class container {
     }
 
     static set(row: number, col: number, value: number) {
+        if (row < 0) {
+            return;
+        }
 
         this.points[row][col] = value
     }

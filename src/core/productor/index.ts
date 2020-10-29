@@ -1,50 +1,43 @@
-import React from "react"
-import Shape from "@/core/shape";
+import React, { useState, useEffect, useRef } from "react"
+import Shape from "@/core/shape"; 4
 import Controller from "@/core/controller"
-import { Shapes, Shape as ShapeType, } from "@/core/types/shape";
 import Container from "@/core/container";
-import Rule from "@/core/rule"
 
+import { Shapes, Shape as ShapeType, } from "@/core/types/shape";
+import Rule from '../rule';
 
+const Productor = function () {
 
+    const [shape, setShape] = useState<ShapeType>(Shape({ shape: Shapes[0], centerPoint: { x: 4, y: 0 } }))
 
-export default class Productor {
-    static shape: ShapeType;
-    static removeEvent: () => void;
-    static onChange: (shape: ShapeType) => void;
-    static getShape(): ShapeType {
-        if (!Productor.shape) {
-            Productor.createShape()
-        }
-        return Productor.shape;
+    const removeEvent = useRef<() => void>()
+    removeEvent.current && removeEvent.current()
+    removeEvent.current = Controller(shape, setShape)
+    const createShape = () => {
+        let shapeIndex = Math.floor(Math.random() * (Shapes.length - 1));
+        let info = Shape({ shape: Shapes[shapeIndex], centerPoint: { x: 4, y: 0 } });
+
+        setShape(info)
     }
-
-    static createShape() {
-
-        Productor.removeEvent && Productor.removeEvent();
-        let shapeIndex = Math.floor(Math.random() * Shapes.length + 1);
-        let shape = Shape({ shape: Shapes[shapeIndex], centerPoint: { x: 4, y: 0 } });
-        Productor.removeEvent = Controller(shape, Productor.setShape)
-
-        Productor.shape = shape;
-    }
-
-    static setShape(shape: ShapeType) {
-        // console.log(shape, 'shape')
-        Productor.removeEvent && Productor.removeEvent()
-
-        Productor.shape = shape
-        Productor.removeEvent = Controller(shape, Productor.setShape,)
-
-        Productor.onChange && Productor.onChange(Productor.shape)
-        if (Rule.isTouch(Productor.shape)) {
-            Productor.shape.forEach(item => {
+    useEffect(() => {
+        if (Rule.isTouch(shape)) {
+            shape.forEach(item => {
                 Container.set(item.y, item.x, 1)
             })
-            Productor.createShape()
+            createShape()
+
         }
-    }
+    }, [shape])
 
+    useEffect(() => {
+        createShape()
+    }, [])
+    // useEffect(() => {
+    //     removeEvent.current = Controller(shape, setShape)
+    //     return removeEvent.current
+    // })
 
+    return shape;
 }
 
+export default Productor

@@ -7,6 +7,7 @@ export default class Rule {
 
         let result: boolean = true;
         shape.map(item => {
+
             if (item.x < 0 || item.x >= Panel.width) {
                 result = false;
             }
@@ -29,11 +30,22 @@ export default class Rule {
             }
 
             if (item.y >= Panel.height - 1) {
-                console.log('触底')
+
                 result = true;
             }
         })
 
+        return result;
+    }
+
+    // 到顶了
+    static isTouchTop() {
+        let result: boolean = false
+        Container.get()[0].forEach(item => {
+            if (item === 1) {
+                result = true
+            }
+        })
         return result;
     }
 }

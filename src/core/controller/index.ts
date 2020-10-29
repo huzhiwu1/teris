@@ -1,11 +1,14 @@
+import React, { useRef, useEffect } from "react"
 import { Shape } from "@/core/types/shape";
 import Rule from "@/core/rule";
 
 
 function controller(shape: Shape, onChange: (e: Shape) => void) {
+    let time = useRef<NodeJS.Timeout>()
 
 
     const keyDownFn = (e: KeyboardEvent) => {
+
         let newShape: Shape | undefined = undefined;
         const { key } = e;
         switch (key) {
@@ -54,7 +57,22 @@ function controller(shape: Shape, onChange: (e: Shape) => void) {
         if (newShape && Rule.canImove(newShape as Shape)) {
             onChange(newShape as Shape)
         }
+
     }
+
+    useEffect(() => {
+        if (!Rule.isTouchTop()) {
+
+            time.current = setTimeout(() => {
+                keyDownFn({ key: "ArrowDown" } as KeyboardEvent)
+            }, 1000)
+        } else {
+            clearTimeout(time.current as NodeJS.Timeout)
+        }
+        return () => {
+            clearTimeout(time.current as NodeJS.Timeout)
+        }
+    }, [shape])
 
 
 
