@@ -30,6 +30,10 @@ export default class container {
         return this.points;
     }
 
+    static getOne(row: number, col: number) {
+        return this.points[row][col]
+    }
+
     static set(row: number, col: number, value: number) {
         this.points[row][col] = value
     }

@@ -1,10 +1,11 @@
 import { Shape } from "@/core/types/shape";
+import Rule from "@/core/rule";
 
 
 function controller(shape: Shape, onChange: (e: Shape) => void) {
     const keyDownFn = (e: KeyboardEvent) => {
         console.log('点击')
-        let newShape = [];
+        let newShape: Shape | undefined = undefined;
         const { key } = e;
         switch (key) {
             case "ArrowUp":
@@ -13,8 +14,9 @@ function controller(shape: Shape, onChange: (e: Shape) => void) {
                         x: item.x,
                         y: item.y - 1
                     }
-                })
-                onChange(newShape as Shape)
+                }) as Shape
+
+
 
                 break;
             case "ArrowDown":
@@ -23,8 +25,8 @@ function controller(shape: Shape, onChange: (e: Shape) => void) {
                         x: item.x,
                         y: item.y + 1
                     }
-                })
-                onChange(newShape as Shape)
+                }) as Shape
+
 
                 break;
 
@@ -34,8 +36,8 @@ function controller(shape: Shape, onChange: (e: Shape) => void) {
                         x: item.x - 1,
                         y: item.y,
                     }
-                })
-                onChange(newShape as Shape)
+                }) as Shape
+
                 break;
 
             case "ArrowRight":
@@ -44,9 +46,12 @@ function controller(shape: Shape, onChange: (e: Shape) => void) {
                         x: item.x + 1,
                         y: item.y,
                     }
-                })
-                onChange(newShape as Shape)
+                }) as Shape
+
                 break;
+        }
+        if (newShape && Rule.canImove(newShape as Shape)) {
+            onChange(newShape as Shape)
         }
     }
 
