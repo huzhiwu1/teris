@@ -20,7 +20,7 @@ const Productor = function () {
         setShape(info)
     }
     useEffect(() => {
-        if (Rule.isTouch(shape)) {
+        if (Rule.isTouch(shape) && !Rule.isTouchTop()) {
             shape.forEach(item => {
                 Container.set(item.y, item.x, 1)
             })
@@ -29,9 +29,9 @@ const Productor = function () {
         }
     }, [shape])
 
-    useEffect(() => {
-        createShape()
-    }, [])
+    // useEffect(() => {
+    //     createShape()
+    // }, [])
     // useEffect(() => {
     //     removeEvent.current = Controller(shape, setShape)
     //     return removeEvent.current

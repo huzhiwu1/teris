@@ -54,21 +54,22 @@ function controller(shape: Shape, onChange: (e: Shape) => void) {
 
                 break;
         }
-        if (newShape && Rule.canImove(newShape as Shape)) {
+        if (newShape && Rule.canImove(newShape as Shape) && !Rule.isTouchTop()) {
             onChange(newShape as Shape)
         }
 
     }
 
     useEffect(() => {
-        if (!Rule.isTouchTop()) {
 
-            time.current = setTimeout(() => {
-                keyDownFn({ key: "ArrowDown" } as KeyboardEvent)
-            }, 1000)
-        } else {
-            clearTimeout(time.current as NodeJS.Timeout)
-        }
+
+        time.current = setTimeout(() => {
+
+            keyDownFn({ key: "ArrowDown" } as KeyboardEvent)
+
+
+        }, 1000)
+
         return () => {
             clearTimeout(time.current as NodeJS.Timeout)
         }
