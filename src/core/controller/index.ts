@@ -1,79 +1,58 @@
 import React, { useRef, useEffect } from "react"
-import { Shape } from "@/core/types/shape";
+import { Shape, IPoint } from "@/core/types/shape";
 import Rule from "@/core/rule";
 
 
-function controller(shape: Shape, onChange: (e: Shape) => void) {
-    let time = useRef<NodeJS.Timeout>()
+function controller(shape: Shape, centerPoint: IPoint, onChange: (e: IPoint) => void) {
+
 
 
     const keyDownFn = (e: KeyboardEvent) => {
-
-        let newShape: Shape | undefined = undefined;
+        let newPoint: IPoint = { ...centerPoint };
         const { key } = e;
+
         switch (key) {
             case "ArrowUp":
-                newShape = shape.map(item => {
-                    return {
-                        x: item.x,
-                        y: item.y - 1
-                    }
-                }) as Shape
-
-
+                newPoint = {
+                    x: centerPoint.x,
+                    y: centerPoint.y - 1
+                }
 
                 break;
             case "ArrowDown":
-                newShape = shape.map(item => {
-                    return {
-                        x: item.x,
-                        y: item.y + 1
-                    }
-                }) as Shape
+                newPoint = {
+                    x: centerPoint.x,
+                    y: centerPoint.y + 1
+                }
 
 
                 break;
 
             case "ArrowLeft":
-                newShape = shape.map(item => {
-                    return {
-                        x: item.x - 1,
-                        y: item.y,
-                    }
-                }) as Shape
+                newPoint = {
+                    x: centerPoint.x - 1,
+                    y: centerPoint.y
+                }
 
                 break;
 
             case "ArrowRight":
-                newShape = shape.map(item => {
-                    return {
-                        x: item.x + 1,
-                        y: item.y,
-                    }
-                }) as Shape
+                newPoint = {
+                    x: centerPoint.x + 1,
+                    y: centerPoint.y
+                }
 
                 break;
         }
-        if (newShape && Rule.canImove(newShape as Shape) && !Rule.isTouchTop()) {
-            onChange(newShape as Shape)
+
+
+        if (Rule.canImove(shape, newPoint) && !Rule.isTouchTop()) {
+            onChange(newPoint)
         }
 
     }
 
-    useEffect(() => {
 
-
-        time.current = setTimeout(() => {
-
-            keyDownFn({ key: "ArrowDown" } as KeyboardEvent)
-
-
-        }, 1000)
-
-        return () => {
-            clearTimeout(time.current as NodeJS.Timeout)
-        }
-    }, [shape])
 
 
 

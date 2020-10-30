@@ -1,12 +1,16 @@
 import Container from "@/core/container";
-import { Shape } from "@/core/types/shape";
+import { Shape, IPoint } from "@/core/types/shape";
 import { Panel } from "@/core/types/panel";
 
 export default class Rule {
-    static canImove(shape: Shape) {
+    static canImove(shape: Shape, centerPoint: IPoint) {
 
         let result: boolean = true;
-        shape.map(item => {
+        let newShape = shape.map(item => ({
+            x: item.x + centerPoint.x,
+            y: item.y + centerPoint.y,
+        }))
+        newShape.map(item => {
 
             if (item.x < 0 || item.x >= Panel.width) {
                 result = false;
@@ -22,9 +26,13 @@ export default class Rule {
     }
 
     // 是否已经触碰到其他方块,或者触底了
-    static isTouch(shape: Shape) {
+    static isTouch(shape: Shape, centerPoint: IPoint) {
         let result: boolean = false;
-        shape.map(item => {
+        let newShape = shape.map(item => ({
+            x: item.x + centerPoint.x,
+            y: item.y + centerPoint.y
+        }))
+        newShape.map(item => {
             if (Container.getOne(item.y + 1, item.x) === 1) {
                 result = true;
             }

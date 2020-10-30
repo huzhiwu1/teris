@@ -13,6 +13,7 @@ const App: FC = function (props) {
 
 	const [pointsArr, setPointsArr] = useState<NumArrLength10>(Container.get());
     const shape = Productor();
+   
 
 
 
